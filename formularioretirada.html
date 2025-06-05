@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Retirada de Equipamentos</title>
+    <!-- Adicionando jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         :root {
             --primary: #4a6bff;
@@ -27,444 +30,164 @@
             background-color: var(--background);
         }
         
-        h1 {
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
+        /* (Mantenha todos os outros estilos CSS como estão no seu código original) */
+        /* ... */
         
-        .client-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background-color: var(--surface-light);
-            border-radius: 8px;
-            gap: 15px;
-        }
-        
-        .client-info-item {
-            flex: 1;
-        }
-        
-        .form-container {
-            background-color: var(--surface);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group:focus-within {
-            transform: translateY(-2px);
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-        
-        .required {
-            color: var(--error);
-            margin-left: 4px;
-        }
-        
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #333;
-            border-radius: 8px;
-            box-sizing: border-box;
-            background-color: var(--surface-light);
-            color: var(--text);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
-        }
-        
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        .radio-group {
-            margin: 1rem 0;
-        }
-        
-        .radio-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            cursor: pointer;
-        }
-        
-        .radio-option input[type="radio"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .radio-option:hover {
-            color: var(--primary);
-        }
-        
-        .other-specify {
-            margin-left: 28px;
-            margin-top: 8px;
-            display: none;
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: white;
-            padding: 14px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            width: 100%;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 1rem;
-        }
-        
-        button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .thank-you {
-            display: none;
-            text-align: center;
-            padding: 3rem;
-            background-color: var(--surface);
-            border-radius: 12px;
-            margin-top: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        .thank-you h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .thank-you p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-        }
-        
-        .success-icon {
-            font-size: 3rem;
-            color: var(--success);
-            margin-bottom: 1.5rem;
-            animation: bounce 0.8s;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
-        
-        /* Responsividade */
-        @media (max-width: 600px) {
-            .client-info {
-                flex-direction: column;
-            }
-            
-            .form-container {
-                padding: 1.5rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h1>FORMULÁRIO DE RETIRADA DE EQUIPAMENTOS</h1>
+    <!-- Mantenha todo o HTML do formulário como está -->
+    <!-- ... -->
+
+    <script>
+        // Inicializar jsPDF
+        const { jsPDF } = window.jspdf;
         
-        <div class="client-info">
-            <div class="client-info-item">
-                <label for="clienteId">ID do Cliente <span class="required">*</span></label>
-                <input type="text" id="clienteId" name="clienteId" required>
-            </div>
-            <div class="client-info-item">
-                <label for="dataRetirada">Data <span class="required">*</span></label>
-                <input type="date" id="dataRetirada" name="dataRetirada" required>
-            </div>
-        </div>
-        
-        <form id="retiradaForm">
-            <div class="form-group">
-                <label>1. Qual o principal motivo para o cancelamento do serviço? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="motivo1" name="motivo" value="Mudança de cidade/região não atendida" required>
-                        <label for="motivo1">Mudança de cidade/região não atendida</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo2" name="motivo" value="Problemas técnicos recorrentes">
-                        <label for="motivo2">Problemas técnicos recorrentes</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo3" name="motivo" value="Atendimento insatisfatório">
-                        <label for="motivo3">Atendimento insatisfatório</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo4" name="motivo" value="Insatisfação com o preço">
-                        <label for="motivo4">Insatisfação com o preço</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo5" name="motivo" value="Troca por outro provedor">
-                        <label for="motivo5">Troca por outro provedor</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo6" name="motivo" value="Problemas financeiros">
-                        <label for="motivo6">Problemas financeiros</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo7" name="motivo" value="Uso temporário finalizado">
-                        <label for="motivo7">Uso temporário finalizado</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="motivo8" name="motivo" value="Outros">
-                        <label for="motivo8">Outros: Especificar</label>
-                    </div>
-                    <div id="outrosMotivo" class="other-specify">
-                        <input type="text" id="outrosMotivoText" name="outrosMotivoText" placeholder="Especifique o motivo">
-                    </div>
-                </div>
-            </div>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('retiradaForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const thankYou = document.getElementById('thankYou');
             
-            <!-- Restante do formulário mantido igual -->
-            <div class="form-group">
-                <label>2. Você está mudando de endereço ou cidade? Se sim, é para uma área que atendemos? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="mudanca1" name="mudanca" value="Sim, e a nova área é atendida" required>
-                        <label for="mudanca1">Sim, e a nova área é atendida</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="mudanca2" name="mudanca" value="Sim, e a nova área não é atendida">
-                        <label for="mudanca2">Sim, e a nova área não é atendida</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="mudanca3" name="mudanca" value="Não está mudando">
-                        <label for="mudanca3">Não está mudando</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="mudanca4" name="mudanca" value="Não informado">
-                        <label for="mudanca4">Não informado</label>
-                    </div>
-                </div>
-            </div>
+            // Configurar data atual como padrão
+            const dataInput = document.getElementById('dataRetirada');
+            const today = new Date().toISOString().split('T')[0];
+            dataInput.value = today;
             
-            <div class="form-group">
-                <label>3. Está trocando para outra empresa/provedor? Se sim, para qual?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="troca1" name="troca" value="Sim">
-                        <label for="troca1">Sim – Nome do provedor:</label>
-                    </div>
-                    <div id="nomeProvedorGroup" class="other-specify">
-                        <input type="text" id="nomeProvedor" name="nomeProvedor" placeholder="Nome do provedor">
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="troca2" name="troca" value="Não está contratando outro">
-                        <label for="troca2">Não está contratando outro</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="troca3" name="troca" value="Cliente não respondeu">
-                        <label for="troca3">Cliente não respondeu</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="troca4" name="troca" value="Não soube informar">
-                        <label for="troca4">Não soube informar</label>
-                    </div>
-                </div>
-            </div>
+            // Mostrar campos condicionais
+            document.getElementById('motivo8').addEventListener('change', function() {
+                document.getElementById('outrosMotivo').style.display = this.checked ? 'block' : 'none';
+                if (!this.checked) document.getElementById('outrosMotivoText').value = '';
+            });
             
-            <div class="form-group">
-                <label>4. Nossos serviços não atenderam às suas expectativas?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="expectativa1" name="expectativa" value="Sim, serviço não atendeu">
-                        <label for="expectativa1">Sim, serviço não atendeu</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expectativa2" name="expectativa" value="Não, o serviço estava bom">
-                        <label for="expectativa2">Não, o serviço estava bom</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expectativa3" name="expectativa" value="Cliente não quis comentar">
-                        <label for="expectativa3">Cliente não quis comentar</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="expectativa4" name="expectativa" value="Cliente elogiou o serviço">
-                        <label for="expectativa4">Cliente elogiou o serviço</label>
-                    </div>
-                </div>
-            </div>
+            document.getElementById('troca1').addEventListener('change', function() {
+                document.getElementById('nomeProvedorGroup').style.display = this.checked ? 'block' : 'none';
+                if (!this.checked) document.getElementById('nomeProvedor').value = '';
+            });
             
-            <div class="form-group">
-                <label>5. Teve alguma dificuldade técnica ou com o atendimento nos últimos meses?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="dificuldade1" name="dificuldade" value="Sim, com a internet (lentidão, quedas etc.)">
-                        <label for="dificuldade1">Sim, com a internet (lentidão, quedas etc.)</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="dificuldade2" name="dificuldade" value="Sim, com o suporte/atendimento">
-                        <label for="dificuldade2">Sim, com o suporte/atendimento</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="dificuldade3" name="dificuldade" value="Sim, com a instalação/manutenção">
-                        <label for="dificuldade3">Sim, com a instalação/manutenção</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="dificuldade4" name="dificuldade" value="Não teve dificuldades">
-                        <label for="dificuldade4">Não teve dificuldades</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="dificuldade5" name="dificuldade" value="Não respondeu">
-                        <label for="dificuldade5">Não respondeu</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="observacoes">Observações Adicionais:</label>
-                <textarea id="observacoes" name="observacoes" placeholder="Ex: está mudando para Criciúma"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="atendente">Dados do Atendente <span class="required">*</span></label>
-                <input type="text" id="atendente" name="atendente" required placeholder="Nome do Atendente">
-            </div>
-            
-            <button type="submit" id="submitBtn">Enviar Formulário</button>
-        </form>
-    </div>
-    
-    <div id="thankYou" class="thank-you">
-        <div class="success-icon">✓</div>
-        <h2>Formulário enviado com sucesso!</h2>
-        <p>Obrigado por registrar as informações de retirada.</p>
-    </div>
-    
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('retiradaForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const thankYou = document.getElementById('thankYou');
-        
-        // URL do seu Web App do Google Apps Script
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-7Ar974_4byhKEYB8LLdU6TEwCZwou2ri1lzOiLg0eP-wijCN5cDhIBcIZVRkCGTatw/exec';
-        
-        // Configurar data atual como padrão
-        const dataInput = document.getElementById('dataRetirada');
-        const today = new Date().toISOString().split('T')[0];
-        dataInput.value = today;
-        
-        // Mostrar campos condicionais
-        document.getElementById('motivo8').addEventListener('change', function() {
-            document.getElementById('outrosMotivo').style.display = this.checked ? 'block' : 'none';
-            if (!this.checked) document.getElementById('outrosMotivoText').value = '';
-        });
-        
-        document.getElementById('troca1').addEventListener('change', function() {
-            document.getElementById('nomeProvedorGroup').style.display = this.checked ? 'block' : 'none';
-            if (!this.checked) document.getElementById('nomeProvedor').value = '';
-        });
-        
-        // Validação em tempo real
-        form.addEventListener('input', function(e) {
-            const input = e.target;
-            if (input.required && !input.value) {
-                input.style.borderColor = 'var(--error)';
-            } else {
-                input.style.borderColor = '#333';
-            }
-        });
-        
-        // Envio do formulário para o Google Drive
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Validar campos obrigatórios
-            let isValid = true;
-            const requiredInputs = form.querySelectorAll('[required]');
-            
-            requiredInputs.forEach(input => {
-                if (!input.value) {
+            // Validação em tempo real
+            form.addEventListener('input', function(e) {
+                const input = e.target;
+                if (input.required && !input.value) {
                     input.style.borderColor = 'var(--error)';
-                    isValid = false;
+                } else {
+                    input.style.borderColor = '#333';
                 }
             });
             
-            if (!isValid) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-                return;
+            // Função para gerar PDF
+            function gerarPDF(formData) {
+                const doc = new jsPDF();
+                
+                // Cabeçalho
+                doc.setFontSize(18);
+                doc.setTextColor(74, 107, 255);
+                doc.text('FORMULÁRIO DE RETIRADA DE EQUIPAMENTOS', 105, 20, { align: 'center' });
+                
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                
+                // Informações do cliente
+                doc.text(`ID do Cliente: ${formData.clienteId}`, 20, 40);
+                doc.text(`Data: ${new Date(formData.dataRetirada).toLocaleDateString('pt-BR')}`, 20, 50);
+                
+                // Dados do formulário
+                let yPos = 70;
+                
+                doc.setFontSize(14);
+                doc.text('DADOS DO FORMULÁRIO', 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(12);
+                doc.text(`1. Motivo do cancelamento: ${formData.motivo}${formData.outrosMotivo ? ' (' + formData.outrosMotivo + ')' : ''}`, 20, yPos);
+                yPos += 10;
+                
+                doc.text(`2. Mudança de endereço/cidade: ${formData.mudanca}`, 20, yPos);
+                yPos += 10;
+                
+                if (formData.troca === 'Sim') {
+                    doc.text(`3. Troca de provedor: Sim - ${formData.nomeProvedor}`, 20, yPos);
+                } else {
+                    doc.text(`3. Troca de provedor: ${formData.troca}`, 20, yPos);
+                }
+                yPos += 10;
+                
+                doc.text(`4. Expectativas: ${formData.expectativa}`, 20, yPos);
+                yPos += 10;
+                
+                doc.text(`5. Dificuldades: ${formData.dificuldade}`, 20, yPos);
+                yPos += 10;
+                
+                if (formData.observacoes) {
+                    const splitObservacoes = doc.splitTextToSize(`Observações: ${formData.observacoes}`, 170);
+                    doc.text(splitObservacoes, 20, yPos);
+                    yPos += 10 * splitObservacoes.length;
+                }
+                
+                doc.text(`Atendente: ${formData.atendente}`, 20, yPos);
+                yPos += 20;
+                
+                // Assinaturas
+                doc.line(20, yPos, 90, yPos);
+                doc.text('Assinatura do Cliente', 55, yPos + 10, { align: 'center' });
+                
+                doc.line(120, yPos, 190, yPos);
+                doc.text('Assinatura do Atendente', 155, yPos + 10, { align: 'center' });
+                
+                // Rodapé
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')}`, 105, 285, { align: 'center' });
+                
+                return doc;
             }
             
-            // Desativar botão durante o envio
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            submitBtn.style.opacity = '0.7';
-            
-            try {
-                // Coletar todos os dados do formulário
-                const formData = {
-                    clienteId: document.getElementById('clienteId').value,
-                    dataRetirada: document.getElementById('dataRetirada').value,
-                    motivo: document.querySelector('input[name="motivo"]:checked')?.value,
-                    outrosMotivo: document.getElementById('outrosMotivoText').value,
-                    mudanca: document.querySelector('input[name="mudanca"]:checked')?.value,
-                    troca: document.querySelector('input[name="troca"]:checked')?.value,
-                    nomeProvedor: document.getElementById('nomeProvedor').value,
-                    expectativa: document.querySelector('input[name="expectativa"]:checked')?.value,
-                    dificuldade: document.querySelector('input[name="dificuldade"]:checked')?.value,
-                    observacoes: document.getElementById('observacoes').value,
-                    atendente: document.getElementById('atendente').value
-                };
+            // Envio do formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
                 
-                // Enviar para o Google Apps Script
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
+                // Validar campos obrigatórios
+                let isValid = true;
+                const requiredInputs = form.querySelectorAll('[required]');
+                
+                requiredInputs.forEach(input => {
+                    if (!input.value) {
+                        input.style.borderColor = 'var(--error)';
+                        isValid = false;
+                    }
                 });
                 
-                const result = await response.json();
+                if (!isValid) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
                 
-                if (result.status === 'success') {
+                // Desativar botão durante o envio
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Gerando PDF...';
+                submitBtn.style.opacity = '0.7';
+                
+                try {
+                    // Coletar todos os dados do formulário
+                    const formData = {
+                        clienteId: document.getElementById('clienteId').value,
+                        dataRetirada: document.getElementById('dataRetirada').value,
+                        motivo: document.querySelector('input[name="motivo"]:checked')?.value,
+                        outrosMotivo: document.getElementById('outrosMotivoText').value,
+                        mudanca: document.querySelector('input[name="mudanca"]:checked')?.value,
+                        troca: document.querySelector('input[name="troca"]:checked')?.value,
+                        nomeProvedor: document.getElementById('nomeProvedor').value,
+                        expectativa: document.querySelector('input[name="expectativa"]:checked')?.value,
+                        dificuldade: document.querySelector('input[name="dificuldade"]:checked')?.value,
+                        observacoes: document.getElementById('observacoes').value,
+                        atendente: document.getElementById('atendente').value
+                    };
+                    
+                    // Gerar PDF
+                    const pdf = gerarPDF(formData);
+                    
+                    // Salvar PDF
+                    pdf.save(`Retirada_Equipamentos_${formData.clienteId}_${new Date().toISOString().split('T')[0]}.pdf`);
+                    
                     // Mostrar mensagem de sucesso
                     form.style.display = 'none';
                     thankYou.style.display = 'block';
@@ -480,17 +203,16 @@
                         submitBtn.textContent = 'Enviar Formulário';
                         submitBtn.style.opacity = '1';
                     }, 5000);
-                } else {
-                    throw new Error(result.message || 'Erro desconhecido ao enviar formulário');
+                    
+                } catch (error) {
+                    console.error('Erro ao gerar PDF:', error);
+                    alert('Ocorreu um erro ao gerar o PDF. Por favor, tente novamente.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Enviar Formulário';
+                    submitBtn.style.opacity = '1';
                 }
-                
-            } catch (error) {
-                console.error('Erro ao enviar formulário:', error);
-                alert(error.message || 'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Enviar Formulário';
-                submitBtn.style.opacity = '1';
-            }
+            });
         });
-    });
-</script>
+    </script>
+</body>
+</html>
