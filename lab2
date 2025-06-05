@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário de Retirada de Equipamentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-group-inline .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      font-weight: normal;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 600px) {
+      .form-group-inline {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Formulário de Retirada de Equipamentos</h1>
+    <form>
+      <div class="form-group-inline">
+        <div class="form-group">
+          <label for="clientId">ID do Cliente:</label>
+          <input type="text" id="clientId" name="clientId" placeholder="Digite o ID do cliente" required />
+        </div>
+        <div class="form-group">
+          <label for="date">Data:</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>1. Qual o principal motivo para o cancelamento do serviço?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="reason" value="mudanca" required /> Mudança de cidade/região não atendida</label>
+          <label><input type="radio" name="reason" value="problemas_tecnicos" /> Problemas técnicos recorrentes</label>
+          <label><input type="radio" name="reason" value="atendimento" /> Atendimento insatisfatório</label>
+          <label><input type="radio" name="reason" value="preco" /> Insatisfação com o preço</label>
+          <label><input type="radio" name="reason" value="outro_provedor" /> Troca por outro provedor</label>
+          <label><input type="radio" name="reason" value="financeiro" /> Problemas financeiros</label>
+          <label><input type="radio" name="reason" value="uso_temporario" /> Uso temporário finalizado</label>
+          <label><input type="radio" name="reason" value="outros" /> Outros</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>2. Você está mudando de endereço ou cidade? Se sim, é para uma área que atendemos?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="moving" value="sim_atendido" required /> Sim, e a nova área é atendida</label>
+          <label><input type="radio" name="moving" value="sim_nao_atendido" /> Sim, e a nova área não é atendida</label>
+          <label><input type="radio" name="moving" value="nao" /> Não está mudando</label>
+          <label><input type="radio" name="moving" value="nao_informado" /> Não informado</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>3. Está trocando para outra empresa/provedor? Se sim, para qual?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="new_provider" value="sim" /> Sim</label>
+          <label><input type="radio" name="new_provider" value="nao" /> Não está contratando outro</label>
+          <label><input type="radio" name="new_provider" value="nao_respondeu" /> Cliente não respondeu</label>
+          <label><input type="radio" name="new_provider" value="nao_soube" /> Não soube informar</label>
+        </div>
+        <input type="text" name="provider_name" placeholder="Nome do novo provedor (se aplicável)" />
+      </div>
+
+      <div class="form-group">
+        <label>4. Nossos serviços não atenderam às suas expectativas?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="expectations" value="nao_atendeu" required /> Sim, serviço não atendeu</label>
+          <label><input type="radio" name="expectations" value="atendeu" /> Não, o serviço estava bom</label>
+          <label><input type="radio" name="expectations" value="nao_comentou" /> Cliente não quis comentar</label>
+          <label><input type="radio" name="expectations" value="elogiou" /> Cliente elogiou o serviço</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>5. Teve alguma dificuldade técnica ou com o atendimento nos últimos meses?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="difficulties" value="internet" /> Sim, com a internet (lentidão, quedas etc.)</label>
+          <label><input type="checkbox" name="difficulties" value="suporte" /> Sim, com o suporte/atendimento</label>
+          <label><input type="checkbox" name="difficulties" value="instalacao" /> Sim, com a instalação/manutenção</label>
+          <label><input type="checkbox" name="difficulties" value="nao" /> Não teve dificuldades</label>
+          <label><input type="checkbox" name="difficulties" value="nao_respondeu" /> Não respondeu</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="observations">Observações Adicionais:</label>
+        <textarea id="observations" name="observations" placeholder="Digite suas observações aqui..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="attendantName">Nome do Atendente:</label>
+        <input type="text" id="attendantName" name="attendantName" placeholder="Digite o nome do atendente" required />
+      </div>
+
+      <button type="submit">Enviar Formulário</button>
+    </form>
+  </div>
+</body>
+</html>
