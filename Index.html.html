@@ -1,288 +1,189 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Retirada de Equipamentos</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #0066cc;
-        }
-        .form-title {
-            color: #0066cc;
-            margin-bottom: 5px;
-        }
-        .client-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .question-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f5f5f5;
-        }
-        .question {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #0066cc;
-        }
-        .options {
-            margin-left: 15px;
-        }
-        .option-item {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-        input[type="checkbox"], input[type="radio"] {
-            margin-right: 10px;
-        }
-        .text-input {
-            margin-left: 5px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            width: 200px;
-        }
-        .observations {
-            margin-top: 30px;
-        }
-        textarea {
-            width: 100%;
-            min-height: 60px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: vertical;
-        }
-        .attendant-info {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f5f5f5;
-            border-radius: 5px;
-        }
-        .attendant-input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 5px;
-        }
-        .no-print {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .print-button {
-            padding: 10px 20px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .id-input {
-            font-weight: bold;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            width: 150px;
-        }
-        @media print {
-            body {
-                padding: 0;
-                font-size: 12pt;
-            }
-            .no-print {
-                display: none;
-            }
-        }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Preenche a data automaticamente
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            document.getElementById('data').textContent = dd + '/' + mm + '/' + yyyy;
-        });
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário de Retirada de Equipamentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-group-inline .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      font-weight: normal;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 600px) {
+      .form-group-inline {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="form-header">
-        <h1 class="form-title">FORMULÁRIO DE RETIRADA DE EQUIPAMENTOS</h1>
-        <div style="margin-top: 15px;">
-            <strong>ID do Cliente:</strong>
-            <input type="text" class="id-input" id="id-cliente" placeholder="Digite o ID">
+  <div class="container">
+    <h1>Formulário de Retirada de Equipamentos</h1>
+    <form>
+      <div class="form-group-inline">
+        <div class="form-group">
+          <label for="clientId">ID do Cliente:</label>
+          <input type="text" id="clientId" name="clientId" placeholder="Digite o ID do cliente" required />
         </div>
-    </div>
-
-    <div class="client-info">
-        <div><strong>Data:</strong> <span id="data"></span></div>
-    </div>
-
-    <div class="question-group">
-        <div class="question">1. Qual o principal motivo para o cancelamento do serviço?</div>
-        <div class="options">
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo1">
-                <label for="motivo1">Mudança de cidade/região não atendida</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo2">
-                <label for="motivo2">Problemas técnicos recorrentes</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo3">
-                <label for="motivo3">Atendimento insatisfatório</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo4">
-                <label for="motivo4">Insatisfação com o preço</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo5">
-                <label for="motivo5">Troca por outro provedor</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo6">
-                <label for="motivo6">Problemas financeiros</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo7">
-                <label for="motivo7">Uso temporário finalizado</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="motivo" id="motivo8">
-                <label for="motivo8">Outros: </label>
-                <input type="text" class="text-input" placeholder="Especificar">
-            </div>
+        <div class="form-group">
+          <label for="date">Data:</label>
+          <input type="date" id="date" name="date" required />
         </div>
-    </div>
+      </div>
 
-    <div class="question-group">
-        <div class="question">2. Você está mudando de endereço ou cidade? Se sim, é para uma área que atendemos?</div>
-        <div class="options">
-            <div class="option-item">
-                <input type="radio" name="mudanca" id="mudanca1">
-                <label for="mudanca1">Sim, e a nova área é atendida</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="mudanca" id="mudanca2">
-                <label for="mudanca2">Sim, e a nova área não é atendida</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="mudanca" id="mudanca3">
-                <label for="mudanca3">Não está mudando</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="mudanca" id="mudanca4">
-                <label for="mudanca4">Não informado</label>
-            </div>
+      <div class="form-group">
+        <label>1. Qual o principal motivo para o cancelamento do serviço?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="reason" value="mudanca" required /> Mudança de cidade/região não atendida</label>
+          <label><input type="radio" name="reason" value="problemas_tecnicos" /> Problemas técnicos recorrentes</label>
+          <label><input type="radio" name="reason" value="atendimento" /> Atendimento insatisfatório</label>
+          <label><input type="radio" name="reason" value="preco" /> Insatisfação com o preço</label>
+          <label><input type="radio" name="reason" value="outro_provedor" /> Troca por outro provedor</label>
+          <label><input type="radio" name="reason" value="financeiro" /> Problemas financeiros</label>
+          <label><input type="radio" name="reason" value="uso_temporario" /> Uso temporário finalizado</label>
+          <label><input type="radio" name="reason" value="outros" /> Outros</label>
         </div>
-    </div>
+      </div>
 
-    <div class="question-group">
-        <div class="question">3. Está trocando para outra empresa/provedor? Se sim, para qual?</div>
-        <div class="options">
-            <div class="option-item">
-                <input type="radio" name="troca" id="troca1">
-                <label for="troca1">Sim – Nome do provedor: </label>
-                <input type="text" class="text-input" placeholder="Nome do provedor">
-            </div>
-            <div class="option-item">
-                <input type="radio" name="troca" id="troca2">
-                <label for="troca2">Não está contratando outro</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="troca" id="troca3">
-                <label for="troca3">Cliente não respondeu</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="troca" id="troca4">
-                <label for="troca4">Não soube informar</label>
-            </div>
+      <div class="form-group">
+        <label>2. Você está mudando de endereço ou cidade? Se sim, é para uma área que atendemos?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="moving" value="sim_atendido" required /> Sim, e a nova área é atendida</label>
+          <label><input type="radio" name="moving" value="sim_nao_atendido" /> Sim, e a nova área não é atendida</label>
+          <label><input type="radio" name="moving" value="nao" /> Não está mudando</label>
+          <label><input type="radio" name="moving" value="nao_informado" /> Não informado</label>
         </div>
-    </div>
+      </div>
 
-    <div class="question-group">
-        <div class="question">4. Nossos serviços não atenderam às suas expectativas?</div>
-        <div class="options">
-            <div class="option-item">
-                <input type="radio" name="expectativa" id="expectativa1">
-                <label for="expectativa1">Sim, serviço não atendeu</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="expectativa" id="expectativa2">
-                <label for="expectativa2">Não, o serviço estava bom</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="expectativa" id="expectativa3">
-                <label for="expectativa3">Cliente não quis comentar</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="expectativa" id="expectativa4">
-                <label for="expectativa4">Cliente elogiou o serviço</label>
-            </div>
+      <div class="form-group">
+        <label>3. Está trocando para outra empresa/provedor? Se sim, para qual?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="new_provider" value="sim" /> Sim</label>
+          <label><input type="radio" name="new_provider" value="nao" /> Não está contratando outro</label>
+          <label><input type="radio" name="new_provider" value="nao_respondeu" /> Cliente não respondeu</label>
+          <label><input type="radio" name="new_provider" value="nao_soube" /> Não soube informar</label>
         </div>
-    </div>
+        <input type="text" name="provider_name" placeholder="Nome do novo provedor (se aplicável)" />
+      </div>
 
-    <div class="question-group">
-        <div class="question">5. Teve alguma dificuldade técnica ou com o atendimento nos últimos meses?</div>
-        <div class="options">
-            <div class="option-item">
-                <input type="radio" name="dificuldade" id="dificuldade1">
-                <label for="dificuldade1">Sim, com a internet (lentidão, quedas etc.)</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="dificuldade" id="dificuldade2">
-                <label for="dificuldade2">Sim, com o suporte/atendimento</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="dificuldade" id="dificuldade3">
-                <label for="dificuldade3">Sim, com a instalação/manutenção</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="dificuldade" id="dificuldade4">
-                <label for="dificuldade4">Não teve dificuldades</label>
-            </div>
-            <div class="option-item">
-                <input type="radio" name="dificuldade" id="dificuldade5">
-                <label for="dificuldade5">Não respondeu</label>
-            </div>
+      <div class="form-group">
+        <label>4. Nossos serviços não atenderam às suas expectativas?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="expectations" value="nao_atendeu" required /> Sim, serviço não atendeu</label>
+          <label><input type="radio" name="expectations" value="atendeu" /> Não, o serviço estava bom</label>
+          <label><input type="radio" name="expectations" value="nao_comentou" /> Cliente não quis comentar</label>
+          <label><input type="radio" name="expectations" value="elogiou" /> Cliente elogiou o serviço</label>
         </div>
-    </div>
+      </div>
 
-    <div class="observations">
-        <div class="question">Observações Adicionais:</div>
-        <textarea placeholder="Registre aqui quaisquer observações relevantes..."></textarea>
-    </div>
-
-    <div class="attendant-info">
-        <div class="question">Dados do Atendente</div>
-        <div style="margin-top: 10px;">
-            <label for="atendente">Nome do Atendente:</label><br>
-            <input type="text" id="atendente" class="attendant-input" placeholder="Digite seu nome completo">
+      <div class="form-group">
+        <label>5. Teve alguma dificuldade técnica ou com o atendimento nos últimos meses?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="difficulties" value="internet" /> Sim, com a internet (lentidão, quedas etc.)</label>
+          <label><input type="checkbox" name="difficulties" value="suporte" /> Sim, com o suporte/atendimento</label>
+          <label><input type="checkbox" name="difficulties" value="instalacao" /> Sim, com a instalação/manutenção</label>
+          <label><input type="checkbox" name="difficulties" value="nao" /> Não teve dificuldades</label>
+          <label><input type="checkbox" name="difficulties" value="nao_respondeu" /> Não respondeu</label>
         </div>
-    </div>
+      </div>
 
-    <div class="no-print">
-        <button onclick="window.print()" class="print-button">Imprimir Formulário</button>
-    </div>
+      <div class="form-group">
+        <label for="observations">Observações Adicionais:</label>
+        <textarea id="observations" name="observations" placeholder="Digite suas observações aqui..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="attendantName">Nome do Atendente:</label>
+        <input type="text" id="attendantName" name="attendantName" placeholder="Digite o nome do atendente" required />
+      </div>
+
+      <button type="submit">Enviar Formulário</button>
+    </form>
+  </div>
 </body>
 </html>
