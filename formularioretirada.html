@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa de Satisfação - Provedor de Internet</title>
+    <title>Formulário de Retirada de Equipamentos</title>
     <style>
         :root {
             --primary: #4a6bff;
@@ -34,11 +34,13 @@
             font-weight: 600;
         }
         
-        .intro {
-            text-align: center;
-            color: var(--text-secondary);
+        .client-info {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 2rem;
-            font-size: 1.1rem;
+            padding: 1rem;
+            background-color: var(--surface-light);
+            border-radius: 8px;
         }
         
         .form-container {
@@ -70,8 +72,7 @@
         }
         
         input[type="text"],
-        input[type="email"],
-        input[type="number"],
+        input[type="date"],
         select,
         textarea {
             width: 100%;
@@ -94,67 +95,36 @@
         }
         
         textarea {
-            height: 120px;
+            height: 100px;
             resize: vertical;
         }
         
-        .rating-container {
-            margin: 1.5rem 0;
+        .radio-group {
+            margin: 1rem 0;
         }
         
-        .rating-title {
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-        
-        .rating {
+        .radio-option {
             display: flex;
-            justify-content: space-between;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        .rating-option {
-            display: flex;
-            flex-direction: column;
             align-items: center;
+            margin-bottom: 0.8rem;
             cursor: pointer;
         }
         
-        .rating-option input[type="radio"] {
+        .radio-option input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .radio-option:hover {
+            color: var(--primary);
+        }
+        
+        .other-specify {
+            margin-left: 28px;
+            margin-top: 8px;
             display: none;
-        }
-        
-        .rating-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            text-align: center;
-            width: 50px;
-        }
-        
-        .rating-option input[type="radio"]:checked + .rating-label {
-            background-color: var(--primary);
-            color: white;
-            transform: scale(1.05);
-        }
-        
-        .rating-option:hover .rating-label {
-            background-color: var(--surface-light);
-        }
-        
-        .rating-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .rating-text {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
         }
         
         button {
@@ -218,15 +188,9 @@
         
         /* Responsividade */
         @media (max-width: 600px) {
-            .rating {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-            
-            .rating-option {
-                width: 45%;
-                margin-bottom: 8px;
+            .client-info {
+                flex-direction: column;
+                gap: 10px;
             }
             
             .form-container {
@@ -237,188 +201,185 @@
 </head>
 <body>
     <div class="form-container">
-        <h1>Pesquisa de Satisfação</h1>
-        <p class="intro">Estamos sempre buscando melhorar nossos serviços. Por favor, reserve alguns minutos para responder a esta pesquisa.</p>
+        <h1>FORMULÁRIO DE RETIRADA DE EQUIPAMENTOS</h1>
         
-        <form id="pesquisaForm">
+        <div class="client-info">
+            <div>ID do Cliente: <strong>44557</strong></div>
+            <div>Data: <strong>05/06/2025</strong></div>
+        </div>
+        
+        <form id="retiradaForm">
             <div class="form-group">
-                <label for="nome">Nome <span class="required">*</span></label>
-                <input type="text" id="nome" name="nome" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">E-mail <span class="required">*</span></label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="plano">Qual plano de internet você utiliza? <span class="required">*</span></label>
-                <select id="plano" name="plano" required>
-                    <option value="">Selecione...</option>
-                    <option value="100mb">100 Mbps</option>
-                    <option value="200mb">200 Mbps</option>
-                    <option value="300mb">300 Mbps</option>
-                    <option value="500mb">500 Mbps</option>
-                    <option value="1gb">1 Gbps</option>
-                </select>
-            </div>
-            
-            <div class="rating-container">
-                <div class="rating-title">Como você avalia a qualidade da sua conexão? <span class="required">*</span></div>
-                <div class="rating">
-                    <div class="rating-option">
-                        <input type="radio" id="qualidade1" name="qualidade" value="1" required>
-                        <label for="qualidade1" class="rating-label">
-                            <span class="rating-value">1</span>
-                            <span class="rating-text">Péssima</span>
-                        </label>
+                <label>1. Qual o principal motivo para o cancelamento do serviço? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="motivo1" name="motivo" value="Mudança de cidade/região não atendida" required>
+                        <label for="motivo1">Mudança de cidade/região não atendida</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="qualidade2" name="qualidade" value="2">
-                        <label for="qualidade2" class="rating-label">
-                            <span class="rating-value">2</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo2" name="motivo" value="Problemas técnicos recorrentes">
+                        <label for="motivo2">Problemas técnicos recorrentes</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="qualidade3" name="qualidade" value="3">
-                        <label for="qualidade3" class="rating-label">
-                            <span class="rating-value">3</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo3" name="motivo" value="Atendimento insatisfatório">
+                        <label for="motivo3">Atendimento insatisfatório</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="qualidade4" name="qualidade" value="4">
-                        <label for="qualidade4" class="rating-label">
-                            <span class="rating-value">4</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo4" name="motivo" value="Insatisfação com o preço">
+                        <label for="motivo4">Insatisfação com o preço</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="qualidade5" name="qualidade" value="5">
-                        <label for="qualidade5" class="rating-label">
-                            <span class="rating-value">5</span>
-                            <span class="rating-text">Excelente</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo5" name="motivo" value="Troca por outro provedor">
+                        <label for="motivo5">Troca por outro provedor</label>
                     </div>
-                </div>
-            </div>
-            
-            <div class="rating-container">
-                <div class="rating-title">Como você avalia a velocidade da sua conexão? <span class="required">*</span></div>
-                <div class="rating">
-                    <div class="rating-option">
-                        <input type="radio" id="velocidade1" name="velocidade" value="1" required>
-                        <label for="velocidade1" class="rating-label">
-                            <span class="rating-value">1</span>
-                            <span class="rating-text">Muito lenta</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo6" name="motivo" value="Problemas financeiros">
+                        <label for="motivo6">Problemas financeiros</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="velocidade2" name="velocidade" value="2">
-                        <label for="velocidade2" class="rating-label">
-                            <span class="rating-value">2</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo7" name="motivo" value="Uso temporário finalizado">
+                        <label for="motivo7">Uso temporário finalizado</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="velocidade3" name="velocidade" value="3">
-                        <label for="velocidade3" class="rating-label">
-                            <span class="rating-value">3</span>
-                        </label>
+                    <div class="radio-option">
+                        <input type="radio" id="motivo8" name="motivo" value="Outros">
+                        <label for="motivo8">Outros: Especificar</label>
                     </div>
-                    <div class="rating-option">
-                        <input type="radio" id="velocidade4" name="velocidade" value="4">
-                        <label for="velocidade4" class="rating-label">
-                            <span class="rating-value">4</span>
-                        </label>
-                    </div>
-                    <div class="rating-option">
-                        <input type="radio" id="velocidade5" name="velocidade" value="5">
-                        <label for="velocidade5" class="rating-label">
-                            <span class="rating-value">5</span>
-                            <span class="rating-text">Muito rápida</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="rating-container">
-                <div class="rating-title">Como você avalia o atendimento ao cliente? <span class="required">*</span></div>
-                <div class="rating">
-                    <div class="rating-option">
-                        <input type="radio" id="atendimento1" name="atendimento" value="1" required>
-                        <label for="atendimento1" class="rating-label">
-                            <span class="rating-value">1</span>
-                            <span class="rating-text">Péssimo</span>
-                        </label>
-                    </div>
-                    <div class="rating-option">
-                        <input type="radio" id="atendimento2" name="atendimento" value="2">
-                        <label for="atendimento2" class="rating-label">
-                            <span class="rating-value">2</span>
-                        </label>
-                    </div>
-                    <div class="rating-option">
-                        <input type="radio" id="atendimento3" name="atendimento" value="3">
-                        <label for="atendimento3" class="rating-label">
-                            <span class="rating-value">3</span>
-                        </label>
-                    </div>
-                    <div class="rating-option">
-                        <input type="radio" id="atendimento4" name="atendimento" value="4">
-                        <label for="atendimento4" class="rating-label">
-                            <span class="rating-value">4</span>
-                        </label>
-                    </div>
-                    <div class="rating-option">
-                        <input type="radio" id="atendimento5" name="atendimento" value="5">
-                        <label for="atendimento5" class="rating-label">
-                            <span class="rating-value">5</span>
-                            <span class="rating-text">Excelente</span>
-                        </label>
+                    <div id="outrosMotivo" class="other-specify">
+                        <input type="text" id="outrosMotivoText" name="outrosMotivoText" placeholder="Especifique o motivo">
                     </div>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="frequencia">Com que frequência você experimenta problemas de conexão? <span class="required">*</span></label>
-                <select id="frequencia" name="frequencia" required>
-                    <option value="">Selecione...</option>
-                    <option value="nunca">Nunca</option>
-                    <option value="raramente">Raramente</option>
-                    <option value="mensal">Uma vez por mês</option>
-                    <option value="semanal">Uma vez por semana</option>
-                    <option value="diario">Diariamente</option>
-                </select>
+                <label>2. Você está mudando de endereço ou cidade? Se sim, é para uma área que atendemos? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="mudanca1" name="mudanca" value="Sim, e a nova área é atendida" required>
+                        <label for="mudanca1">Sim, e a nova área é atendida</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="mudanca2" name="mudanca" value="Sim, e a nova área não é atendida">
+                        <label for="mudanca2">Sim, e a nova área não é atendida</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="mudanca3" name="mudanca" value="Não está mudando">
+                        <label for="mudanca3">Não está mudando</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="mudanca4" name="mudanca" value="Não informado">
+                        <label for="mudanca4">Não informado</label>
+                    </div>
+                </div>
             </div>
             
             <div class="form-group">
-                <label for="recomendacao">Você recomendaria nosso serviço a amigos ou familiares? <span class="required">*</span></label>
-                <select id="recomendacao" name="recomendacao" required>
-                    <option value="">Selecione...</option>
-                    <option value="sim">Sim, com certeza</option>
-                    <option value="talvez">Talvez</option>
-                    <option value="nao">Não recomendaria</option>
-                </select>
+                <label>3. Está trocando para outra empresa/provedor? Se sim, para qual?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="troca1" name="troca" value="Sim">
+                        <label for="troca1">Sim – Nome do provedor:</label>
+                    </div>
+                    <div id="nomeProvedorGroup" class="other-specify">
+                        <input type="text" id="nomeProvedor" name="nomeProvedor" placeholder="Nome do provedor">
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="troca2" name="troca" value="Não está contratando outro">
+                        <label for="troca2">Não está contratando outro</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="troca3" name="troca" value="Cliente não respondeu">
+                        <label for="troca3">Cliente não respondeu</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="troca4" name="troca" value="Não soube informar">
+                        <label for="troca4">Não soube informar</label>
+                    </div>
+                </div>
             </div>
             
             <div class="form-group">
-                <label for="comentarios">Comentários ou sugestões adicionais:</label>
-                <textarea id="comentarios" name="comentarios" placeholder="Digite aqui seus comentários..."></textarea>
+                <label>4. Nossos serviços não atenderam às suas expectativas?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="expectativa1" name="expectativa" value="Sim, serviço não atendeu">
+                        <label for="expectativa1">Sim, serviço não atendeu</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expectativa2" name="expectativa" value="Não, o serviço estava bom">
+                        <label for="expectativa2">Não, o serviço estava bom</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expectativa3" name="expectativa" value="Cliente não quis comentar">
+                        <label for="expectativa3">Cliente não quis comentar</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="expectativa4" name="expectativa" value="Cliente elogiou o serviço">
+                        <label for="expectativa4">Cliente elogiou o serviço</label>
+                    </div>
+                </div>
             </div>
             
-            <button type="submit" id="submitBtn">Enviar Pesquisa</button>
+            <div class="form-group">
+                <label>5. Teve alguma dificuldade técnica ou com o atendimento nos últimos meses?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="dificuldade1" name="dificuldade" value="Sim, com a internet (lentidão, quedas etc.)">
+                        <label for="dificuldade1">Sim, com a internet (lentidão, quedas etc.)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dificuldade2" name="dificuldade" value="Sim, com o suporte/atendimento">
+                        <label for="dificuldade2">Sim, com o suporte/atendimento</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dificuldade3" name="dificuldade" value="Sim, com a instalação/manutenção">
+                        <label for="dificuldade3">Sim, com a instalação/manutenção</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dificuldade4" name="dificuldade" value="Não teve dificuldades">
+                        <label for="dificuldade4">Não teve dificuldades</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dificuldade5" name="dificuldade" value="Não respondeu">
+                        <label for="dificuldade5">Não respondeu</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="observacoes">Observações Adicionais:</label>
+                <textarea id="observacoes" name="observacoes" placeholder="Ex: está mudando para Criciúma"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="atendente">Dados do Atendente <span class="required">*</span></label>
+                <input type="text" id="atendente" name="atendente" required placeholder="Nome do Atendente">
+            </div>
+            
+            <button type="submit" id="submitBtn">Enviar Formulário</button>
         </form>
     </div>
     
     <div id="thankYou" class="thank-you">
         <div class="success-icon">✓</div>
-        <h2>Obrigado por sua participação!</h2>
-        <p>Sua opinião é muito importante para nós e nos ajuda a melhorar nossos serviços.</p>
+        <h2>Formulário enviado com sucesso!</h2>
+        <p>Obrigado por registrar as informações de retirada.</p>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('pesquisaForm');
+            const form = document.getElementById('retiradaForm');
             const submitBtn = document.getElementById('submitBtn');
             const thankYou = document.getElementById('thankYou');
+            
+            // Mostrar campo "Outros" quando selecionado
+            document.getElementById('motivo8').addEventListener('change', function() {
+                document.getElementById('outrosMotivo').style.display = this.checked ? 'block' : 'none';
+            });
+            
+            // Mostrar campo "Nome do provedor" quando selecionado
+            document.getElementById('troca1').addEventListener('change', function() {
+                document.getElementById('nomeProvedorGroup').style.display = this.checked ? 'block' : 'none';
+            });
             
             // Validação em tempo real
             form.addEventListener('input', function(e) {
@@ -458,7 +419,7 @@
                 try {
                     // Simular envio para um endpoint (substitua pela sua URL real)
                     const formData = new FormData(form);
-                    const response = await fetch('https://api.example.com/survey', {
+                    const response = await fetch('https://api.example.com/retirada', {
                         method: 'POST',
                         body: formData
                     });
@@ -479,15 +440,15 @@
                         form.style.display = 'block';
                         thankYou.style.display = 'none';
                         submitBtn.disabled = false;
-                        submitBtn.textContent = 'Enviar Pesquisa';
+                        submitBtn.textContent = 'Enviar Formulário';
                         submitBtn.style.opacity = '1';
                     }, 5000);
                     
                 } catch (error) {
                     console.error('Erro ao enviar formulário:', error);
-                    alert('Ocorreu um erro ao enviar sua pesquisa. Por favor, tente novamente.');
+                    alert('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Enviar Pesquisa';
+                    submitBtn.textContent = 'Enviar Formulário';
                     submitBtn.style.opacity = '1';
                 }
             });
