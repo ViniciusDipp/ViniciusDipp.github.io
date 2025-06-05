@@ -377,5 +377,120 @@
         <p>Obrigado por registrar as informações de retirada.</p>
     </div>
     
-    <script>
-        document.addEventListener
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('retiradaForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const thankYou = document.getElementById('thankYou');
+        
+        // URL do seu Web App do Google Apps Script
+        const SCRIPT_URL = 'SUA_URL_DO_WEB_APP_AQUI';
+        
+        // Configurar data atual como padrão
+        const dataInput = document.getElementById('dataRetirada');
+        const today = new Date().toISOString().split('T')[0];
+        dataInput.value = today;
+        
+        // Mostrar campos condicionais
+        document.getElementById('motivo8').addEventListener('change', function() {
+            document.getElementById('outrosMotivo').style.display = this.checked ? 'block' : 'none';
+            if (!this.checked) document.getElementById('outrosMotivoText').value = '';
+        });
+        
+        document.getElementById('troca1').addEventListener('change', function() {
+            document.getElementById('nomeProvedorGroup').style.display = this.checked ? 'block' : 'none';
+            if (!this.checked) document.getElementById('nomeProvedor').value = '';
+        });
+        
+        // Validação em tempo real
+        form.addEventListener('input', function(e) {
+            const input = e.target;
+            if (input.required && !input.value) {
+                input.style.borderColor = 'var(--error)';
+            } else {
+                input.style.borderColor = '#333';
+            }
+        });
+        
+        // Envio do formulário para o Google Drive
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validar campos obrigatórios
+            let isValid = true;
+            const requiredInputs = form.querySelectorAll('[required]');
+            
+            requiredInputs.forEach(input => {
+                if (!input.value) {
+                    input.style.borderColor = 'var(--error)';
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Desativar botão durante o envio
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.style.opacity = '0.7';
+            
+            try {
+                // Coletar todos os dados do formulário
+                const formData = {
+                    clienteId: document.getElementById('clienteId').value,
+                    dataRetirada: document.getElementById('dataRetirada').value,
+                    motivo: document.querySelector('input[name="motivo"]:checked')?.value,
+                    outrosMotivo: document.getElementById('outrosMotivoText').value,
+                    mudanca: document.querySelector('input[name="mudanca"]:checked')?.value,
+                    troca: document.querySelector('input[name="troca"]:checked')?.value,
+                    nomeProvedor: document.getElementById('nomeProvedor').value,
+                    expectativa: document.querySelector('input[name="expectativa"]:checked')?.value,
+                    dificuldade: document.querySelector('input[name="dificuldade"]:checked')?.value,
+                    observacoes: document.getElementById('observacoes').value,
+                    atendente: document.getElementById('atendente').value
+                };
+                
+                // Enviar para o Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Mostrar mensagem de sucesso
+                    form.style.display = 'none';
+                    thankYou.style.display = 'block';
+                    thankYou.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Resetar o formulário após 5 segundos
+                    setTimeout(() => {
+                        form.reset();
+                        dataInput.value = today;
+                        form.style.display = 'block';
+                        thankYou.style.display = 'none';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Enviar Formulário';
+                        submitBtn.style.opacity = '1';
+                    }, 5000);
+                } else {
+                    throw new Error(result.message || 'Erro desconhecido ao enviar formulário');
+                }
+                
+            } catch (error) {
+                console.error('Erro ao enviar formulário:', error);
+                alert(error.message || 'Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar Formulário';
+                submitBtn.style.opacity = '1';
+            }
+        });
+    });
+</script>
