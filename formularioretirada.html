@@ -380,20 +380,6 @@
                 doc.text(`• Atendente: ${formData.atendente}`, margin, yPos);
                 yPos += 20;
                 
-                // Assinaturas
-                doc.setFontSize(10);
-                doc.setTextColor(100, 100, 100);
-                doc.text('Assinaturas', pageWidth / 2, yPos, { align: 'center' });
-                yPos += 10;
-                
-                doc.setDrawColor(150, 150, 150);
-                doc.line(margin, yPos, margin + 70, yPos);
-                doc.line(pageWidth - margin - 70, yPos, pageWidth - margin, yPos);
-                
-                doc.text('Cliente', margin + 35, yPos + 10, { align: 'center' });
-                doc.text('Atendente', pageWidth - margin - 35, yPos + 10, { align: 'center' });
-                yPos += 30;
-                
                 // Rodapé
                 doc.setFontSize(8);
                 doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} • Página 1/1`, 
